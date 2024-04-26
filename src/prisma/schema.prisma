@@ -11,8 +11,55 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  email String @unique
-  username String
+  id                Int       @id @default(autoincrement())
+  email             String    @unique
+  username          String
+  created_at        DateTime  @default(now())
+  threads           Thread[]
+  comments_written  Comment[] @relation(name: "profile")
+  comments_received Comment[] @relation(name: "author")
+}
+
+model Category {
+  id     Int     @id @default(autoincrement())
+  name   String
+  forums Forum[]
+}
+
+model Forum {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  category    Category @relation(fields: [categoryId], references: [id])
+  threads     Thread[]
+
+  categoryId Int
+}
+
+model Thread {
+  id         String    @id @default(uuid())
+  title      String
+  content    String
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now())
+  author     User      @relation(fields: [authorId], references: [id])
+  forum      Forum     @relation(fields: [forumId], references: [id])
+  comments   Comment[]
+
+  authorId Int
+  forumId  String
+}
+
+model Comment {
+  id         String   @id @default(uuid())
+  content    String
   created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  author     User     @relation(name: "author", fields: [authorId], references: [id])
+  thread     Thread?  @relation(fields: [threadId], references: [id])
+  user       User?    @relation(name: "profile", fields: [userId], references: [id])
+
+  authorId Int
+  threadId String?
+  userId   Int?
 }
