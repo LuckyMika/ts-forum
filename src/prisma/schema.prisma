@@ -49,7 +49,7 @@ model Thread {
   comments   Comment[]
   upvotes    Int       @default(0)
   downvotes  Int       @default(0)
-  locked     Boolean   @default(true)
+  locked     Boolean   @default(false)
 
   authorId Int
   forumId  String
