@@ -50,7 +50,7 @@ model Thread {
   upvotes    Int       @default(0)
   downvotes  Int       @default(0)
   locked     Boolean   @default(false)
-  sticky     Boolean   @default(false)
+  pinned     Boolean   @default(false)
 
   authorId Int
   forumId  String
