@@ -46,6 +46,8 @@ model Thread {
   author     User      @relation(fields: [authorId], references: [id])
   forum      Forum     @relation(fields: [forumId], references: [id])
   comments   Comment[]
+  upvotes    Int       @default(0)
+  downvotes  Int       @default(0)
 
   authorId Int
   forumId  String
@@ -59,12 +61,15 @@ model Comment {
   author     User     @relation(name: "author", fields: [authorId], references: [id])
   thread     Thread?  @relation(fields: [threadId], references: [id])
   user       User?    @relation(name: "profile", fields: [userId], references: [id])
+  upvotes    Int      @default(0)
+  downvotes  Int      @default(0)
 
   authorId Int
   threadId String?
   userId   Int?
 }
 
+// "power" is used to control which rank can moderate which ranks (i.e. moderation power)
 model Rank {
   id          String         @id @default(uuid())
   name        String
