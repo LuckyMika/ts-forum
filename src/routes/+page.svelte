@@ -1,2 +1,9 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+	import { onMount } from "svelte";
+
+	onMount(() => {
+		// Clientside javascript runs in here
+	})
+</script>
+
+<h1>This will be forum trust me bro</h1>
