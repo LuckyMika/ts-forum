@@ -11,13 +11,14 @@ datasource db {
 }
 
 model User {
-  id                Int       @id @default(autoincrement())
-  email             String    @unique
+  id                Int            @id @default(autoincrement())
+  email             String         @unique
   username          String
-  created_at        DateTime  @default(now())
+  created_at        DateTime       @default(now())
   threads           Thread[]
-  comments_written  Comment[] @relation(name: "profile")
-  comments_received Comment[] @relation(name: "author")
+  comments_written  Comment[]      @relation(name: "profile")
+  comments_received Comment[]      @relation(name: "author")
+  ranks             RankRelation[]
 }
 
 model Category {
@@ -62,4 +63,22 @@ model Comment {
   authorId Int
   threadId String?
   userId   Int?
+}
+
+model Rank {
+  id          String         @id @default(uuid())
+  name        String
+  permissions Int
+  relations   RankRelation[]
+  power       Int            @default(1)
+}
+
+model RankRelation {
+  id         String   @id @default(uuid())
+  rank       Rank     @relation(fields: [rankId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
+  expires_at DateTime
+
+  rankId String
+  userId Int
 }
