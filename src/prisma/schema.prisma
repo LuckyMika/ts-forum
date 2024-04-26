@@ -33,6 +33,7 @@ model Forum {
   description String
   category    Category @relation(fields: [categoryId], references: [id])
   threads     Thread[]
+  rankAccess  Rank[]
 
   categoryId Int
 }
@@ -48,6 +49,7 @@ model Thread {
   comments   Comment[]
   upvotes    Int       @default(0)
   downvotes  Int       @default(0)
+  locked     Boolean   @default(true)
 
   authorId Int
   forumId  String
@@ -71,11 +73,12 @@ model Comment {
 
 // "power" is used to control which rank can moderate which ranks (i.e. moderation power)
 model Rank {
-  id          String         @id @default(uuid())
-  name        String
-  permissions Int
-  relations   RankRelation[]
-  power       Int            @default(1)
+  id           String         @id @default(uuid())
+  name         String
+  permissions  Int
+  relations    RankRelation[]
+  power        Int            @default(1)
+  forum_access Forum[]
 }
 
 model RankRelation {
