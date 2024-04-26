@@ -11,8 +11,83 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  email String @unique
-  username String
+  id                Int            @id @default(autoincrement())
+  email             String         @unique
+  username          String
+  created_at        DateTime       @default(now())
+  threads           Thread[]
+  comments_written  Comment[]      @relation(name: "profile")
+  comments_received Comment[]      @relation(name: "author")
+  ranks             RankRelation[]
+}
+
+model Category {
+  id     Int     @id @default(autoincrement())
+  name   String
+  forums Forum[]
+}
+
+model Forum {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  category    Category @relation(fields: [categoryId], references: [id])
+  threads     Thread[]
+  rankAccess  Rank[]
+
+  categoryId Int
+}
+
+model Thread {
+  id         String    @id @default(uuid())
+  title      String
+  content    String
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now())
+  author     User      @relation(fields: [authorId], references: [id])
+  forum      Forum     @relation(fields: [forumId], references: [id])
+  comments   Comment[]
+  upvotes    Int       @default(0)
+  downvotes  Int       @default(0)
+  locked     Boolean   @default(false)
+  pinned     Boolean   @default(false)
+
+  authorId Int
+  forumId  String
+}
+
+model Comment {
+  id         String   @id @default(uuid())
+  content    String
   created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  author     User     @relation(name: "author", fields: [authorId], references: [id])
+  thread     Thread?  @relation(fields: [threadId], references: [id])
+  user       User?    @relation(name: "profile", fields: [userId], references: [id])
+  upvotes    Int      @default(0)
+  downvotes  Int      @default(0)
+
+  authorId Int
+  threadId String?
+  userId   Int?
+}
+
+// "power" is used to control which rank can moderate which ranks (i.e. moderation power)
+model Rank {
+  id           String         @id @default(uuid())
+  name         String
+  permissions  Int
+  relations    RankRelation[]
+  power        Int            @default(1)
+  forum_access Forum[]
+}
+
+model RankRelation {
+  id         String   @id @default(uuid())
+  rank       Rank     @relation(fields: [rankId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
+  expires_at DateTime
+
+  rankId String
+  userId Int
 }
