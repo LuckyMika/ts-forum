@@ -1,67 +1,90 @@
-<script lang="ts">
+<script>
+	import Forum from "$lib/components/Forum.svelte";
+	import Notification from "$lib/components/Notification.svelte";
+	const categories = [
+		{
+			title: "Public Forums",
+			forums: [
+				{
+					name: "Chat",
+					icon: "fa-comments",
+				},
+			],
+		},
+		{
+			title: "Private Forums",
+			forums: [
+				{
+					name: "Chat",
+					icon: "fa-comments",
+				},
+			],
+		},
+		{
+			title: "Staff Forums",
+			forums: [
+				{
+					name: "Chat",
+					icon: "fa-comments",
+				},
+			],
+		},
+	];
 </script>
 
-<div class="category-container">
-	<h3 class="category-title">Public Forums</h3>
-	<hr />
-	<div class="forum-container">
-		<div class="forum-info-container">
-			<i
-				class="fas fa-solid fa-comments fa-3x"
-				style="color: #a5a5a5;"
-			></i>
-			<h3 class="forum-title">Chat</h3>
-		</div>
-		<div class="user-container">
-			<img
-				src="https://cdn.discordapp.com/avatars/385244650371416070/f06b4c71cab7bfbbb076e04efe8db227.webp?size=80"
-				alt="blue's profile"
-			/>
-			<span class="username">blue</span>
-		</div>
+<main>
+	<div class="categories container">
+		{#each categories as category}
+			<div class="category container">
+				<h3 class="category-title">{category.title}</h3>
+				{#each category.forums as forum}
+					<Forum
+						name={forum.name}
+						icon={forum.icon}
+						last_thread={{
+							id: "uuid-and-shit",
+							title: "Poop",
+							author: {
+								id: 1,
+								username: "Blue",
+							},
+						}}
+					/>
+				{/each}
+			</div>
+		{/each}
 	</div>
-</div>
+</main>
 
 <style>
-	.category-container {
-		border-radius: 10px;
-		border: 2px solid #080808;
-		margin: 0 auto;
-		max-width: 60%;
-		background-color: #161616;
-	}
-
-	.forum-info-container {
+	.container {
 		display: flex;
-		flex-wrap: nowrap;
-	}
-
-	.category-container *:not(hr) {
-		padding: 10px;
-	}
-
-	.forum-container {
-		display: flex;
-		flex-wrap: nowrap;
-		justify-content: space-between;
-	}
-
-	.username {
-		color: #ef0000;
-		font-size: 1.5em;
-	}
-
-	.user-container {
-		display: flex;
-		flex-wrap: nowrap;
+		justify-content: center;
 		align-items: center;
 	}
 
-	hr {
-		border: 1px solid #080808;
+	.categories {
+		flex-direction: column;
+		width: 70%;
+		margin: 0 auto;
 	}
 
-	img {
-		border-radius: 35%;
+	.category {
+		border-radius: 10px;
+		border: 1px solid #2b2b2b;
+		background-color: #161616;
+		flex-direction: column;
+		align-items: unset;
+		width: 100%;
+		margin-top: 20px;
+	}
+
+	.category:last-child {
+		margin-bottom: 20px;
+	}
+
+	.category-title {
+		padding: 10px;
+		border-bottom: 1px solid #2b2b2b;
 	}
 </style>
