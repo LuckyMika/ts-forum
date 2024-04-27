@@ -1,3 +1,12 @@
+<script>
+	import Notification from "./Notification.svelte";
+	import notification_store from "./notification_store";
+
+	function handleClick() {
+		notification_store.set(!$notification_store);
+	}
+</script>
+
 <header>
 	<div class="navigation">
 		<a class="home" href="/" title="Home">
@@ -5,12 +14,19 @@
 		</a>
 	</div>
 	<div class="userarea">
-		<button class="notifications" title="Notifications">
+		{#if $notification_store}
+			<Notification />
+		{/if}
+		<button
+			class="notifications"
+			title="Notifications"
+			on:click={handleClick}
+		>
 			<i class="fas fa-bell"></i>
 		</button>
-		<button class="profile" title="Profile">
+		<a class="profile" href="/profile" title="Profile">
 			<i class="fas fa-user"></i>
-		</button>
+		</a>
 	</div>
 </header>
 
@@ -27,21 +43,24 @@
 		box-shadow: 0px 0px 20px -2px #d9d9d9;
 
 		display: flex;
-		justify-content: space-around;
+		justify-content: space-between;
 	}
 
 	header > div {
 		display: flex;
-		width: 100px;
+		justify-content: space-between;
+		align-items: center;
+		margin: 0 20px;
 	}
 
 	a,
 	button {
+		box-sizing: content-box;
 		background-color: #00000000;
 		color: #8d8d8d;
 		width: 40px;
 		height: 40px;
-		margin: auto;
+		margin: 5px;
 
 		border-radius: 3px;
 		border: 1px solid #2b2b2b;
@@ -60,6 +79,6 @@
 	}
 
 	i {
-		font-size: 1.5em;
+		font-size: 24px;
 	}
 </style>

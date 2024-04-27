@@ -1,5 +1,6 @@
 <script>
 	import Forum from "$lib/components/Forum.svelte";
+	import Notification from "$lib/components/Notification.svelte";
 	const categories = [
 		{
 			title: "Public Forums",
