@@ -11,14 +11,15 @@ datasource db {
 }
 
 model User {
-  id                Int            @id @default(autoincrement())
-  email             String         @unique
+  id                Int                    @id @default(autoincrement())
+  email             String                 @unique
   username          String
-  created_at        DateTime       @default(now())
+  created_at        DateTime               @default(now())
   threads           Thread[]
-  comments_written  Comment[]      @relation(name: "profile")
-  comments_received Comment[]      @relation(name: "author")
+  comments_written  Comment[]              @relation(name: "profile")
+  comments_received Comment[]              @relation(name: "author")
   ranks             RankRelation[]
+  notifications     NotificationRelation[]
 }
 
 model Category {
@@ -34,8 +35,7 @@ model Forum {
   category    Category @relation(fields: [categoryId], references: [id])
   threads     Thread[]
   rankAccess  Rank[]
-
-  categoryId Int
+  categoryId  Int
 }
 
 model Thread {
@@ -51,9 +51,8 @@ model Thread {
   downvotes  Int       @default(0)
   locked     Boolean   @default(false)
   pinned     Boolean   @default(false)
-
-  authorId Int
-  forumId  String
+  authorId   Int
+  forumId    String
 }
 
 model Comment {
@@ -66,10 +65,9 @@ model Comment {
   user       User?    @relation(name: "profile", fields: [userId], references: [id])
   upvotes    Int      @default(0)
   downvotes  Int      @default(0)
-
-  authorId Int
-  threadId String?
-  userId   Int?
+  authorId   Int
+  threadId   String?
+  userId     Int?
 }
 
 // "power" is used to control which rank can moderate which ranks (i.e. moderation power)
@@ -83,11 +81,28 @@ model Rank {
 }
 
 model RankRelation {
-  id         String   @id @default(uuid())
-  rank       Rank     @relation(fields: [rankId], references: [id])
-  user       User     @relation(fields: [userId], references: [id])
-  expires_at DateTime
+  id         String    @id @default(uuid())
+  rank       Rank      @relation(fields: [rankId], references: [id])
+  user       User      @relation(fields: [userId], references: [id])
+  expires_at DateTime?
+  rankId     String
+  userId     Int
+}
 
-  rankId String
-  userId Int
+model Notification {
+  id         String   @id @default(uuid())
+  created_at DateTime @default(now())
+  title      String
+  content    String
+
+  recipients NotificationRelation[]
+}
+
+model NotificationRelation {
+  id             String       @id @default(uuid())
+  user           User         @relation(fields: [userId], references: [id])
+  notification   Notification @relation(fields: [notificationId], references: [id])
+  read           Boolean      @default(false)
+  userId         Int
+  notificationId String
 }
