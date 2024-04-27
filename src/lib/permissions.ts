@@ -1,6 +1,3 @@
-import type { Rank, RankRelation, User } from "@prisma/client";
-import db from "./db";
-
 const PERMISSIONS = [
 	// Users
 	"CREATE_THREAD",
@@ -46,56 +43,30 @@ const PERMISSIONS_BIT_MASK: Index = PERMISSIONS.reduce((accumulated, permission,
 }, {}) as Index;
 //     ^^^^^^^^ "trust me bro the keys are in there"
 
-
-// This function will make a database request!
-async function user_has_permission(user: User, permission: Permission) {
-	const fetched_user = await db.user.findUnique({
-		where: { id: user.id },
-		include: { ranks: true },
-	});
-
-	if (fetched_user == null) {
-		console.log("Invalid user received!");
-		return null;
-	}
-
-	return rank_relations_have_permission(fetched_user.ranks, permission);
-}
-
-function rank_relations_have_permission(rank_relations: RankRelation[], permission: Permission) {
-	return rank_relations.some((rank_relation) => rank_relation_has_permission(rank_relation, permission));
-}
-
-async function rank_relation_has_permission(rank_relation: RankRelation, permission: Permission) {
-	const fetched_relation = await db.rankRelation.findUnique({
-		where: { id: rank_relation.id },
-		include: { rank: true },
-	});
-
-	if (fetched_relation == null) {
-		console.log("Invalid rank relation received!");
-		return null;
-	}
-
-	return rank_has_permission(fetched_relation.rank, permission);
-}
-
-function ranks_have_permission(ranks: Rank[], permission: Permission) {
-	return ranks.some((rank) => rank_has_permission(rank, permission));
+function is_permission_set(permissions: number, permission: Permission) {
+	return (permissions & PERMISSIONS_BIT_MASK[permission]) != 0;
 }
 
 
-function rank_has_permission(rank: Rank, permission: Permission) {
-	return rank.permissions & PERMISSIONS_BIT_MASK[permission];
+function add_permission(permissions: number, permission: Permission) {
+	return permissions | PERMISSIONS_BIT_MASK[permission];
+}
+
+function remove_permission(permissions: number, permission: Permission) {
+	return permissions & ~PERMISSIONS_BIT_MASK[permission];
+}
+
+// EXPERIMENTAL!
+function toggle_permission(permissions: number, permission: Permission) {
+	return permissions ^ PERMISSIONS_BIT_MASK[permission];
 }
 
 export default {
 	PERMISSIONS,
 	PERMISSIONS_BIT_MASK,
 
-	user_has_permission,
-	rank_relations_have_permission,
-	rank_relation_has_permission,
-	ranks_have_permission,
-	rank_has_permission,
+	is_permission_set,
+	add_permission,
+	remove_permission,
+	toggle_permission,
 }
