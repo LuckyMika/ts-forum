@@ -8,7 +8,7 @@
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"prisma": "npx prisma migrate && npx prisma generate",
+		"prisma": "npx prisma migrate dev && npx prisma generate",
 		"test": "npx jest"
 	},
 	"devDependencies": {
