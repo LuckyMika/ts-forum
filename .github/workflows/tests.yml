@@ -18,10 +18,3 @@ jobs:
 
     - name: Run tests
       run: npm test
-
-    - name: Set status check
-      if: always()
-      uses: badboy/github-action-set-status-check@v1
-      with:
-        status: success
-        context: continuous-integration/tests
