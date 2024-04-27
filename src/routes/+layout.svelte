@@ -7,3 +7,9 @@
 	<slot />
 </main>
 <footer></footer>
+
+<style>
+	main {
+		margin-top: 60px;
+	}
+</style>

@@ -21,9 +21,9 @@
 		background-color: #212121;
 		height: 60px;
 		width: 100%;
-		position: sticky;
+		position: fixed;
+		top: 0;
 
-		margin-bottom: 20px;
 		box-shadow: 0px 0px 20px -2px #d9d9d9;
 
 		display: flex;
