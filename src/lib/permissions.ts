@@ -61,7 +61,7 @@ function toggle_permission(permissions: number, permission: Permission) {
 	return permissions ^ PERMISSIONS_BIT_MASK[permission];
 }
 
-export default {
+export {
 	PERMISSIONS,
 	PERMISSIONS_BIT_MASK,
 
