@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import notification_store from "./notification_store";
+	import notification_store from "$lib/stores/notification_store";
 
 	let element: HTMLDivElement;
 
@@ -32,14 +32,22 @@
 			clickY <= rectangle.y + rectangle.height;
 
 		if (!insideRectangle) {
-			notification_store.set(false);
+			let old_store = $notification_store;
+
+			notification_store.set({ ...old_store, open: false });
 		}
 	}
 </script>
 
 <div class="notification" bind:this={element}>
 	<h3>Notifications</h3>
-	<div class="notifications-container"></div>
+	<div class="notifications-container">
+		{#if $notification_store.notifications.length > 0}
+			<!-- notifications here -->
+		{:else}
+			You have no new notifications!
+		{/if}
+	</div>
 	<div class="actions-container">
 		<a href="/profile/notifications">Show all</a>
 		<span>|</span>
@@ -54,7 +62,7 @@
 		width: 200px;
 		background-color: #161616;
 		top: 60px;
-		right: 10px;
+		right: calc(0 - 60%);
 
 		border-radius: 3px;
 		border: 1px solid #2b2b2b;

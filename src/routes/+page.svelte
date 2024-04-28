@@ -1,6 +1,6 @@
 <script>
 	import Forum from "$lib/components/Forum.svelte";
-	import Notification from "$lib/components/Notification.svelte";
+
 	const categories = [
 		{
 			title: "Public Forums",
@@ -32,29 +32,27 @@
 	];
 </script>
 
-<main>
-	<div class="categories container">
-		{#each categories as category}
-			<div class="category container">
-				<h3 class="category-title">{category.title}</h3>
-				{#each category.forums as forum}
-					<Forum
-						name={forum.name}
-						icon={forum.icon}
-						last_thread={{
-							id: "uuid-and-shit",
-							title: "Poop",
-							author: {
-								id: 1,
-								username: "Blue",
-							},
-						}}
-					/>
-				{/each}
-			</div>
-		{/each}
-	</div>
-</main>
+<div class="categories container">
+	{#each categories as category}
+		<div class="category container">
+			<h3 class="category-title">{category.title}</h3>
+			{#each category.forums as forum}
+				<Forum
+					name={forum.name}
+					icon={forum.icon}
+					last_thread={{
+						id: "uuid-and-shit",
+						title: "Poop",
+						author: {
+							id: 1,
+							username: "Blue",
+						},
+					}}
+				/>
+			{/each}
+		</div>
+	{/each}
+</div>
 
 <style>
 	.container {
@@ -75,7 +73,7 @@
 		background-color: #161616;
 		flex-direction: column;
 		align-items: unset;
-		width: 100%;
+		width: 80%;
 		margin-top: 20px;
 	}
 

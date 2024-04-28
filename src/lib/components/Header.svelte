@@ -1,32 +1,40 @@
-<script>
+<script lang="ts">
 	import Notification from "./Notification.svelte";
-	import notification_store from "./notification_store";
+	import notification_store from "$lib/stores/notification_store";
 
 	function handleClick() {
-		notification_store.set(!$notification_store);
+		let old_store = $notification_store;
+
+		notification_store.set({ ...old_store, open: !old_store.open });
 	}
 </script>
 
 <header>
-	<div class="navigation">
-		<a class="home" href="/" title="Home">
-			<i class="fas fa-home"></i>
-		</a>
-	</div>
-	<div class="userarea">
-		{#if $notification_store}
-			<Notification />
-		{/if}
-		<button
-			class="notifications"
-			title="Notifications"
-			on:click={handleClick}
-		>
-			<i class="fas fa-bell"></i>
-		</button>
-		<a class="profile" href="/profile" title="Profile">
-			<i class="fas fa-user"></i>
-		</a>
+	<div class="button-container">
+		<div class="navigation">
+			<a class="home" href="/" title="Home">
+				<i class="fas fa-home"></i>
+			</a>
+		</div>
+		<div class="userarea">
+			{#if $notification_store.open}
+				<Notification />
+			{/if}
+			<button
+				class="notifications"
+				title="Notifications"
+				on:click={handleClick}
+			>
+				<i class="fas fa-bell"></i>
+			</button>
+			<a
+				class="profile"
+				href="/account/profile"
+				title="Profile"
+			>
+				<i class="fas fa-user"></i>
+			</a>
+		</div>
 	</div>
 </header>
 
@@ -43,10 +51,18 @@
 		box-shadow: 0px 0px 20px -2px #d9d9d9;
 
 		display: flex;
-		justify-content: space-between;
+		justify-content: center;
 	}
 
-	header > div {
+	.button-container {
+		width: 70%;
+		display: flex;
+
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.button-container > div {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
