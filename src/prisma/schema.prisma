@@ -14,11 +14,13 @@ model User {
   id                Int                    @id @default(autoincrement())
   email             String                 @unique
   username          String
+  password          String
   created_at        DateTime               @default(now())
   threads           Thread[]
   comments_written  Comment[]              @relation(name: "profile")
   comments_received Comment[]              @relation(name: "author")
   ranks             RankRelation[]
+  sessions          Session[]
   notifications     NotificationRelation[]
 }
 
@@ -105,4 +107,12 @@ model NotificationRelation {
   read           Boolean      @default(false)
   userId         Int
   notificationId String
+}
+
+// Hack to get around not being able to store lists of Strings
+model Session {
+  token String @id
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
 }
