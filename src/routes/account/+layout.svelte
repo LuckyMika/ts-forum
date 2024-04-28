@@ -108,10 +108,14 @@
 		padding: 5px 5px;
 		margin: 10px 0;
 		border-radius: 5px;
-		box-shadow: 0 0 5px 0;
+	}
+
+	a:hover {
+		background-color: #313131;
 	}
 
 	:global(a[data-selected="true"]) {
-		color: red;
+		background-color: #212121;
+		box-shadow: 0 0 5px 0;
 	}
 </style>
