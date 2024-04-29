@@ -1,12 +1,10 @@
-<div class="profile-container">
-	<h1>Your Profile</h1>
-</div>
+<script>
+</script>
+
+<div class="profile-container"></div>
 
 <style>
 	.profile-container {
-		display: flex;
-		justify-content: center;
-		align-items: center;
+		border-radius: 15px;
 	}
 </style>
-

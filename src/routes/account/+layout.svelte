@@ -71,7 +71,10 @@
 			<a href="/account/2fa">Two Factor Authethication</a>
 		</div>
 	</div>
-	<slot />
+
+	<div class="page-container">
+		<slot />
+	</div>
 </div>
 
 <style>
@@ -85,7 +88,7 @@
 		flex-direction: column;
 		justify-content: space-between;
 		margin-left: 130px;
-		width: 30%;
+		max-width: 30%;
 		height: 100%;
 	}
 
@@ -95,7 +98,6 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: space-around;
-		max-width: 50%;
 	}
 
 	.sidebar-group:first-of-type {
@@ -117,5 +119,11 @@
 	:global(a[data-selected="true"]) {
 		background-color: #212121;
 		box-shadow: 0 0 5px 0;
+	}
+
+	.page-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 </style>

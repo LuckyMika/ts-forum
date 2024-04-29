@@ -6,7 +6,6 @@
 <main>
 	<slot />
 </main>
-<footer></footer>
 
 <style>
 	main {
