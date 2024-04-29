@@ -46,7 +46,7 @@
 </script>
 
 <div class="layout-container">
-	<!-- Jesus fucking christ this is so i dont have to attach a listener to each child object STFU a11y -->
+	<!-- Jesus fucking christ this is so I dont have to attach a listener to each child object STFU a11y -->
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div
@@ -81,15 +81,16 @@
 	.layout-container {
 		display: flex;
 		height: 100%;
+		width: 100%;
 	}
 
 	.sidebar-container {
 		display: flex;
 		flex-direction: column;
-		justify-content: space-between;
+		align-self: center;
 		margin-left: 130px;
 		max-width: 30%;
-		height: 100%;
+		height: 70%;
 	}
 
 	.sidebar-group {
@@ -125,5 +126,6 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		width: 100%;
 	}
 </style>
